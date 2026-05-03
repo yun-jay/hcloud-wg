@@ -42,6 +42,7 @@ func GenerateCloudInit(params CloudInitParams) string {
 package_update: true
 packages:
   - wireguard
+  - mosh
 
 write_files:
   - path: /etc/wireguard/wg0.conf
@@ -59,6 +60,7 @@ write_files:
 runcmd:
   - systemctl enable wg-quick@wg0
   - wg-quick up wg0
+  - ufw allow 60000:61000/udp
   - touch /opt/.wg-ready
 `, params.WGPrivateKey, params.WGIP, params.PeerPublicKey, params.PeerEndpoint, params.PeerAllowedIPs)
 }

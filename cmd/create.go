@@ -172,7 +172,7 @@ func findSSHKeyIDs(cfg *config.Config) ([]int, error) {
 	if len(parts) < 2 {
 		return nil, fmt.Errorf("unexpected ssh-keygen output: %s", string(out))
 	}
-	localFingerprint := parts[1]
+	localFingerprint := strings.TrimPrefix(parts[1], "MD5:")
 
 	client := hetzner.NewClient(cfg.HCloudToken)
 	keys, err := client.ListSSHKeys()
